@@ -2,7 +2,7 @@
   <section class="catalog">
     <ProductList v-bind:products="products"></ProductList>
     <BasePagination
-      v-model:page="page" v-bind:count="countProducts" :per-page="productsPerPage">
+      :page="page" v-bind:count="countProducts" :per-page="productsPerPage" @paginate="changePage">
     </BasePagination>
 
   </section>
@@ -29,6 +29,11 @@ export default {
     },
     countProducts() {
       return products.length;
+    },
+  },
+  methods: {
+    changePage(page) {
+      this.page = page;
     },
   },
 };
