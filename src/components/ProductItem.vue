@@ -16,23 +16,23 @@
 
       <ul class="colors">
         <li class="colors__item">
-          <label class="colors__label" for="id1">
+          <label class="colors__label">
             <input class="colors__radio sr-only" type="radio" value="#73B6EA"
-            id="id1" v-model="color">
+            v-model="color">
             <span class="colors__value" style="background-color: #73B6EA;"></span>
           </label>
         </li>
         <li class="colors__item">
-          <label class="colors__label" for="id2">
+          <label class="colors__label">
             <input class="colors__radio sr-only" type="radio" value="#FFBE15"
-            id="id2" v-model="color">
+            v-model="color">
             <span class="colors__value" style="background-color: #FFBE15;"></span>
           </label>
         </li>
         <li class="colors__item">
-          <label class="colors__label" for="id3">
+          <label class="colors__label">
             <input class="colors__radio sr-only" type="radio" value="#939393"
-            id="id3" v-model="color">
+            v-model="color">
             <span class="colors__value" style="background-color: #939393;"></span>
           </label>
         </li>
