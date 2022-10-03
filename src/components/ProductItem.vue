@@ -1,6 +1,6 @@
 <template>
     <li class="catalog__item">
-      <a class="catalog__pic" href="#">
+      <a class="catalog__pic" href="#" @click.prevent="$emit('goToPage', 'product', {id: product.id})">
         <img v-bind:src="product.image" v-bind:alt="product.title">
       </a>
 
@@ -11,7 +11,7 @@
       </h3>
 
       <span class="catalog__price">
-        {{ product.price }} p
+        {{ product.price | numberFormat }} p
       </span>
 
       <ul class="colors">
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import numberFormat from "@/helpers/numberFormat";
+
 export default {
   data() {
     return {
@@ -48,5 +50,8 @@ export default {
     };
   },
   props: ['product'],
+  filters: {
+    numberFormat
+  },
 };
 </script>
