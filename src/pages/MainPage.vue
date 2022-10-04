@@ -10,11 +10,11 @@
   </div>
 
   <div class="content__catalog">
-    <ProductFilter v-model:price-from="filterPriceFrom" v-model:price-to="filterPriceTo"
-    v-model:category-id="filterCategoryId" v-model:color="filterColor"/>
+    <ProductFilter :price-from.sync="filterPriceFrom" :price-to.sync="filterPriceTo"
+    :category-id.sync="filterCategoryId" :color.sync="filterColor"/>
 
     <section class="catalog">
-      <ProductList v-bind:products="products" @goToPage="(pageName, pageParams) => $emit('goToPage', pageName, pageParams)" />
+      <ProductList v-bind:products="products" />
       <BasePagination
       :page="page" v-bind:count="countProducts" :per-page="productsPerPage" @paginate="changePage"/>
     </section>

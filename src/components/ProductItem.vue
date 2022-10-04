@@ -1,6 +1,6 @@
 <template>
     <li class="catalog__item">
-      <a class="catalog__pic" href="#" @click.prevent="$emit('goToPage', 'product', {id: product.id})">
+      <a class="catalog__pic" href="#" @click.prevent="goToPage('product', {id: product.id})">
         <img v-bind:src="product.image" v-bind:alt="product.title">
       </a>
 
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import goToPage from "@/helpers/goToPage";
 import numberFormat from "@/helpers/numberFormat";
 
 export default {
@@ -52,6 +53,9 @@ export default {
   props: ['product'],
   filters: {
     numberFormat
+  },
+  methods: {
+    goToPage
   },
 };
 </script>

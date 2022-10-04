@@ -1,57 +1,24 @@
 <template>
-  <component :is="currentPageComponent" :page-params="currentPageParams" @goToPage="(pageName, pageParams) => goToPage(pageName, pageParams)" />
-<!-- <main class="content container">
-  <div class="content__top content__top--catalog">
-    <h1 class="content__title">
-      Каталог
-    </h1>
-    <span class="content__info">
-      152 товара
-    </span>
-  </div>
-
-  <div class="content__catalog">
-    <ProductFilter v-model:price-from="filterPriceFrom" v-model:price-to="filterPriceTo"
-    v-model:category-id="filterCategoryId" v-model:color="filterColor"/>
-
-    <section class="catalog">
-      <ProductList v-bind:products="products"></ProductList>
-      <BasePagination
-      :page="page" v-bind:count="countProducts" :per-page="productsPerPage" @paginate="changePage"/>
-    </section>
-  </div>
-</main> -->
+  <component :is="currentPageComponent" :page-params="currentPageParams" />
 </template>
 
 <script>
   import MainPage from './pages/MainPage';
   import ProductPage from './pages/ProductPage';
   import NotFoundPage from './pages/NotFoundPage';
+  import eventBus from "@/eventBus";
 
   const routes = {
     main: 'MainPage',
     product: 'ProductPage',
   };
 
-// import products from './data/products';
-// import ProductList from './components/ProductList.vue';
-// import BasePagination from './components/BasePagination.vue';
-// import ProductFilter from './components/ProductFilter.vue';
-
 export default {
-//   name: 'App',
-//   components: { ProductList, BasePagination, ProductFilter },
   components: { MainPage, ProductPage, NotFoundPage },
   data() {
     return {
       currentPage: 'main',
       currentPageParams: {},
-//       filterPriceFrom: 0,
-//       filterPriceTo: 0,
-//       filterCategoryId: 0,
-//       filterColor: 0,
-//       page: 1,
-//       productsPerPage: 3,
     };
   },
   computed: {
@@ -65,39 +32,8 @@ export default {
       this.currentPageParams = pageParams || {};
     }
   },
-//   computed: {
-//     filteredProducts() {
-//       let filteredProducts = products;
-//       if (this.filterPriceFrom > 0) {
-//         filteredProducts = filteredProducts.filter((product) => product.price > this.filterPriceFrom);
-//         console.log(this.filterPriceFrom)
-//       }
-//       if (this.filterPriceTo > 0) {
-//         filteredProducts = filteredProducts.filter((product) => product.price < this.filterPriceTo);
-//       }
-//       if (this.filterCategoryId) {
-//         filteredProducts = filteredProducts.filter((product) => product.categoryId === this.filterCategoryId);
-//         console.log(this.filterCategoryId)
-//       }
-//       if (this.filterColor) {
-//         for (let product of products) {
-//           filteredProducts = filteredProducts.filter((product) => product.colors.includes(this.filterColor));
-//         }
-//       }
-//       return filteredProducts;
-//     },
-//     products() {
-//       const offset = (this.page - 1) * this.productsPerPage;
-//       return this.filteredProducts.slice(offset, offset + this.productsPerPage);
-//     },
-//     countProducts() {
-//       return this.filteredProducts.length;
-//     },
-//   },
-//   methods: {
-//     changePage(page) {
-//       this.page = page;
-//     },
-//   },
+  created() {
+    eventBus.$on('goToPage', (pageName, pageParams) => this.goToPage(pageName, pageParams))
+  }
 };
 </script>

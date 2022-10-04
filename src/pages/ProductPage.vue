@@ -3,12 +3,12 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#" @click.prevent="$emit('goToPage', 'main')" >
+          <a class="breadcrumbs__link" href="#" @click.prevent="goToPage('main')" >
             Каталог
           </a>
         </li>
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#" @click.prevent="$emit('goToPage', 'main')" >
+          <a class="breadcrumbs__link" href="#" @click.prevent="goToPage('main')" >
             {{ category.title }}
           </a>
         </li>
@@ -178,6 +178,7 @@
 import products from "@/data/products";
 import categories from "@/data/categories";
 import numberFormat from "@/helpers/numberFormat";
+import goToPage from "@/helpers/goToPage";
 
 export default {
   props: ['pageParams', ],
@@ -191,6 +192,9 @@ export default {
     category() {
       return categories.find(category => category.id === this.product.categoryId);
     },
+  },
+  methods: {
+    goToPage
   },
 };
 </script>
