@@ -15,8 +15,7 @@
 
     <section class="catalog">
       <ProductList v-bind:products="products" />
-      <BasePagination
-      :page="page" v-bind:count="countProducts" :per-page="productsPerPage" @paginate="changePage"/>
+      <BasePagination :page="page" v-bind:count="countProducts" :per-page="productsPerPage" @paginate="changePage"/>
     </section>
   </div>
 </main>

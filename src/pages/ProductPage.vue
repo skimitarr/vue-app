@@ -3,14 +3,15 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#" @click.prevent="goToPage('main')" >
+          <!-- <a class="breadcrumbs__link" href="#" @click.prevent="goToPage('main')" >Каталог</a> -->
+          <router-link class="breadcrumbs__link" href="#" :to="{name: 'main'}" >
             Каталог
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#" @click.prevent="goToPage('main')" >
+          <router-link class="breadcrumbs__link" href="#" :to="{name: 'main'}" >
             {{ category.title }}
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link">
@@ -33,7 +34,7 @@
           {{ product.title }}
         </h2>
         <div class="item__form">
-          <form class="form" action="#" method="POST">
+          <form class="form" action="#" method="POST" @submit.prevent="addToCard">
             <b class="item__price">
               {{ product.price | numberFormat }} ₽
             </b>
@@ -97,19 +98,11 @@
 
             <div class="item__row">
               <div class="form__counter">
-                <button type="button" aria-label="Убрать один товар">
-                  <svg width="12" height="12" fill="currentColor">
-                    <use xlink:href="#icon-minus"></use>
-                  </svg>
-                </button>
+                <minusQuantatyProducts :productAmount.sync="productAmount"/>
 
-                <input type="text" value="1" name="count">
+                <input type="text" v-model.number="productAmount">
 
-                <button type="button" aria-label="Добавить один товар">
-                  <svg width="12" height="12" fill="currentColor">
-                    <use xlink:href="#icon-plus"></use>
-                  </svg>
-                </button>
+                <addQuantatyProducts :productAmount.sync="productAmount"/>
               </div>
 
               <button class="button button--primery" type="submit">
@@ -179,22 +172,36 @@ import products from "@/data/products";
 import categories from "@/data/categories";
 import numberFormat from "@/helpers/numberFormat";
 import goToPage from "@/helpers/goToPage";
+import minusQuantatyProducts from "@/components/minusQuantatyProducts";
+import addQuantatyProducts from "@/components/addQuantatyProducts";
 
 export default {
-  props: ['pageParams', ],
+  data() {
+    return {
+      productAmount: 1,
+    };
+  },
+  components: { minusQuantatyProducts, addQuantatyProducts },
   filters: {
     numberFormat
   },
   computed: {
     product() {
-      return products.find(product => product.id === this.pageParams.id);
+      // return products.find(product => product.id === this.pageParams.id);
+      return products.find(product => product.id === +this.$route.params.id);
     },
     category() {
       return categories.find(category => category.id === this.product.categoryId);
     },
   },
   methods: {
-    goToPage
+    goToPage,
+    addToCard() {
+      this.$store.commit(
+        'addProductToCard',
+        {productId: this.product.id, amount: this.productAmount},
+      );
+    },
   },
 };
 </script>
