@@ -31,7 +31,8 @@
       {{ (item.amount * item.product.price) | numberFormat }} ₽
     </b>
 
-    <button class="product__del button-del" type="button" aria-label="Удалить товар из корзины" @click.prevent="deleteProduct(item.productId)">
+    <!-- <button class="product__del button-del" type="button" aria-label="Удалить товар из корзины" @click.prevent="deleteProduct(item.productId)"> -->
+      <button class="product__del button-del" type="button" aria-label="Удалить товар из корзины" @click.prevent="deleteCard">
       <svg width="20" height="20" fill="currentColor">
         <use xlink:href="#icon-close"></use>
       </svg>
@@ -41,7 +42,8 @@
 
 <script>
   import numberFormat from "@/helpers/numberFormat";
-  import { mapMutations } from "vuex";
+  // import { mapMutations } from "vuex";
+  import { mapActions } from "vuex";
 
   export default {
     props: ['item'],
@@ -52,12 +54,16 @@
           return this.item.amount;
         },
         set(value) {
-          this.$store.commit('updateCardProductAmount', {productId: this.item.productId, amount: value })
+          this.$store.dispatch('updateCardProductAmount', {productId: this.item.productId, amount: value })
         },
       }
     },
     methods: {
-      ...mapMutations({deleteProduct: 'deleteCardProduct'}),
+      // ...mapMutations({deleteProduct: 'deleteCardProduct'}),
+      ...mapActions(['deleteCardProductAt']),
+      deleteCard() {
+        this.deleteCardProductAt({productId: this.productId});
+      },
       // deleteProduct(productId) {
       //   this.$store.commit('deleteCardProduct', productId)
       // },

@@ -114,7 +114,8 @@
 </template>
 
 <script>
-  import CardIndicator from '@/components/CardIndicator'
+  import CardIndicator from '@/components/CardIndicator';
+  import { mapActions, mapMutations } from 'vuex';
   // import MainPage from './pages/MainPage';
   // import ProductPage from './pages/ProductPage';
   // import NotFoundPage from './pages/NotFoundPage';
@@ -127,6 +128,20 @@
 
 export default {
   components: { CardIndicator, },
+  created() {
+    // this.$store.dispatch('loadCard');
+    const userAccessKey = localStorage.getItem('userAccessKey');
+
+    if (userAccessKey) {
+      this.updateUserAccessKey(userAccessKey);
+    }
+
+    this.loadCard();
+  },
+  methods: {
+    ...mapActions(['loadCard']),
+    ...mapMutations(['updateUserAccessKey']),
+  }
   // components: { MainPage, ProductPage, NotFoundPage },
   // data() {
   //   return {

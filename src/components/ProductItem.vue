@@ -17,7 +17,7 @@
         {{ product.price | numberFormat }} p
       </span>
 
-      <ul class="colors">
+      <!-- <ul class="colors">
         <li class="colors__item">
           <label class="colors__label">
             <input class="colors__radio sr-only" type="radio" value="#73B6EA"
@@ -37,6 +37,14 @@
             <input class="colors__radio sr-only" type="radio" value="#939393"
             v-model="color">
             <span class="colors__value" style="background-color: #939393;"></span>
+          </label>
+        </li>
+      </ul> -->
+      <ul class="colors">
+        <li class="colors__item" v-for="color in product.colors" :key="color.code + color.id + color.title">
+          <label class="colors__label">
+            <input class="colors__radio sr-only" type="radio" :value="color.code">
+            <span class="colors__value" :style="{ 'background-color': color.code }"></span>
           </label>
         </li>
       </ul>
