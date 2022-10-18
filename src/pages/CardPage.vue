@@ -3,8 +3,8 @@
       <main id="preloader" v-if="productLoading">
           <div id="loader"></div>
       </main>
-      <main class="content container" v-else-if="!productData">Не удалось загрузить корзину</main>
-      <main class="content container" v-else>
+      <!-- <main class="content container" v-else-if="!productLoading">Не удалось загрузить корзину</main> -->
+      <main class="content container v-else">
       <div class="content__top">
         <ul class="breadcrumbs">
           <li class="breadcrumbs__item">
@@ -78,11 +78,10 @@
               Мы&nbsp;посчитаем стоимость доставки на&nbsp;следующем этапе
             </p>
             <p class="cart__price">
-              Итого: <span>{{ totalPrice | numberFormat
-              }} ₽</span>
+              Итого: <span>{{ totalPrice | numberFormat }} ₽</span>
             </p>
 
-            <button class="cart__button button button--primery" type="submit">
+            <button class="cart__button button button--primery" type="submit" :disabled="products.length === 0">
               Оформить заказ
             </button>
           </div>
@@ -96,43 +95,54 @@
   import numberFormat from "@/helpers/numberFormat";
   import { mapGetters } from "vuex";
   import CardItem from "@/components/CardItem";
-  import axios from 'axios';
-  import {API_BASE_URL} from "../config";
+  // import { mapActions } from 'vuex';
+  // import axios from 'axios';
+  // import {API_BASE_URL} from "../config";
 
   export default {
-    data() {
-      return {
-        productLoading: false,
-        productLoadingFailed: false,
-      };
-    },
+    // data() {
+    //   return {
+    //     productLoading: true,
+    //     // productLoadingFailed: false,
+    //   };
+    // },
     components: {CardItem},
     filters: {
       numberFormat
     },
     computed: {
-      ...mapGetters({products: 'cardDetailProducts', totalPrice: 'cardTotalPrice'}),
+      ...mapGetters({products: 'cardDetailProducts', totalPrice: 'cardTotalPrice', productLoading: 'productLoading'}),
       // products() {
       //   return this.$store.getters.cardDetailProducts
       // }
     },
-    methods: {
-      preloading() {
-        this.productLoading = true;
-        this.productLoadingFailed = false;
-        return axios.get(API_BASE_URL + `/api/baskets/`)
-        .then(response => this.productData = response.data)
-        .catch(() => this.productLoadingFailed = true)
-        .then(() => this.productLoading = false);
-      }
-    },
-    watch: {
-    '$route.params.id': {
-      handler() {
-        this.preloading();
-      },
-      immediate: true
-    }
-  },
+    // methods: {
+    //   ...mapActions(['loadCard']),
+    //   preloading() {
+    //     // console.log(this.products.length === 0)
+    //     // this.productLoading = true;
+    //     // this.productLoadingFailed = false;
+    //     // return axios.get(API_BASE_URL + `/api/baskets`)
+    //     // .then(response => this.productData = response.data)
+    //     // .catch(() => this.productLoadingFailed = true)
+    //     // .then(() => this.productLoading = false);
+    //     this.loadCard();
+    //     console.log(this.products.length)
+    //     if(!this.products.length === 0) {
+    //       this.productLoading = false;
+    //     } else {
+
+    //     }
+    //     // console.log(this.productLoading)
+    //   }
+    // },
+    // watch: {
+    //   '$route.params.id': {
+    //     handler() {
+    //       this.preloading();
+    //     },
+    //     immediate: true
+    //   }
+    // },
   }
 </script>

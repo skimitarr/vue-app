@@ -62,7 +62,7 @@
       // ...mapMutations({deleteProduct: 'deleteCardProduct'}),
       ...mapActions(['deleteCardProductAt']),
       deleteCard() {
-        this.deleteCardProductAt({productId: this.productId});
+        this.deleteCardProductAt({productId: this.item.product.id});
       },
       // deleteProduct(productId) {
       //   this.$store.commit('deleteCardProduct', productId)
@@ -74,6 +74,6 @@
       addAmount (amount) {
         return this.amount += 1
       },
-    }
+    },
   }
 </script>

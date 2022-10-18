@@ -31,6 +31,9 @@
 </template>
 
 <style>
+  .catalog {
+    position: relative;
+  }
   #preloader {
       position: fixed;
       background-color: rgb(198, 243, 241);

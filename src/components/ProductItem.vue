@@ -43,7 +43,7 @@
       <ul class="colors">
         <li class="colors__item" v-for="color in product.colors" :key="color.code + color.id + color.title">
           <label class="colors__label">
-            <input class="colors__radio sr-only" type="radio" :value="color.code">
+            <input class="colors__radio sr-only" type="radio" :value="color.code" v-model="currentColor">
             <span class="colors__value" :style="{ 'background-color': color.code }"></span>
           </label>
         </li>
@@ -58,7 +58,7 @@ import numberFormat from "@/helpers/numberFormat";
 export default {
   data() {
     return {
-      color: '#939393',
+      currentColor: '',
     };
   },
   props: ['product'],
