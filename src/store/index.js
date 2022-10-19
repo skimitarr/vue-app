@@ -7,12 +7,8 @@ import {API_BASE_URL} from "../config";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  // data() {
-  //   return {
-  //     productLoading: true,
-  //   };
-  // },
   state: {
+    productLoading: true,
     cardProducts: [
     //   {productId: 1, amount: 2},
     //   {productId: 3, amount: 2},
@@ -50,12 +46,14 @@ export default new Vuex.Store({
     },
     syncCardProducts(state) {
       state.cardProducts = state.cardProductsData.map(item => {
-        // console.log(item.product.id);
         return {
           productId: item.product.id,
           amount: item.quantity,
         }
       });
+    },
+    stateProductLoading(state) {
+      return state.productLoading = false;
     },
   },
   getters: {
@@ -75,13 +73,12 @@ export default new Vuex.Store({
     cardTotalPrice(state, getters) {
       return getters.cardDetailProducts.reduce((acc, item) => (item.product.price * item.amount) + acc, 0);
     },
-    // productLoading(state, getters) {
-    //   return getters.productLoading;
-    // }
+    productLoading(state) {
+      return state.productLoading;
+    }
   },
   actions: {
     loadCard(context) {
-      // this.productLoading = true;
       return axios.get(API_BASE_URL + `/api/baskets`, {
         params: {
           userAccessKey: context.state.userAccessKey
@@ -94,8 +91,8 @@ export default new Vuex.Store({
         }
         context.commit('updateCardProductsData', response.data.items);
         context.commit('syncCardProducts');
+        this.commit('stateProductLoading');
       })
-      // .then(() => this.productLoading = false);
     },
     addProductToCard(context, {productId, amount}) {
       return (new Promise(resolve => setTimeout(resolve, 0)))
@@ -152,9 +149,4 @@ export default new Vuex.Store({
         })
     },
   },
-  // watch: {
-  //   productLoading() {
-  //     this.loadCard(context);
-  //   },
-  // }
 });
