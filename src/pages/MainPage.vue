@@ -35,7 +35,7 @@
     position: relative;
   }
   #preloader {
-      position: fixed;
+      /* position: fixed; */
       background-color: rgb(198, 243, 241);
       top: 0;
       left: 0;

@@ -8,7 +8,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    productLoading: true,
+    productLoading: false,
+    productsLoadingFailed: false,
+    spinnerBasket: false,
     cardProducts: [
     //   {productId: 1, amount: 2},
     //   {productId: 3, amount: 2},
@@ -53,7 +55,13 @@ export default new Vuex.Store({
       });
     },
     stateProductLoading(state) {
-      return state.productLoading = false;
+      return state.productLoading = !state.productLoading;
+    },
+    stateProductsLoadingFailed(state) {
+      return state.productsLoadingFailed = true;
+    },
+    stateSpinnerBasket(state) {
+      return state.spinnerBasket = !state.spinnerBasket;
     },
   },
   getters: {
@@ -75,10 +83,17 @@ export default new Vuex.Store({
     },
     productLoading(state) {
       return state.productLoading;
+    },
+    productsLoadingFailed(state) {
+      return state.productsLoadingFailed;
+    },
+    spinnerBasket(state) {
+      return state.spinnerBasket;
     }
   },
   actions: {
     loadCard(context) {
+      context.commit('stateProductLoading');
       return axios.get(API_BASE_URL + `/api/baskets`, {
         params: {
           userAccessKey: context.state.userAccessKey
@@ -91,10 +106,12 @@ export default new Vuex.Store({
         }
         context.commit('updateCardProductsData', response.data.items);
         context.commit('syncCardProducts');
-        this.commit('stateProductLoading');
       })
+      .catch(() => context.commit('stateProductsLoadingFailed'))
+      .then(() => context.commit('stateProductLoading'))
     },
     addProductToCard(context, {productId, amount}) {
+      context.commit('stateSpinnerBasket');
       return (new Promise(resolve => setTimeout(resolve, 0)))
       .then(() => {
         return axios
@@ -109,6 +126,7 @@ export default new Vuex.Store({
           .then(response => {
             context.commit('updateCardProductsData', response.data.items);
             context.commit('syncCardProducts');
+            context.commit('stateSpinnerBasket');
           })
       })
     },
