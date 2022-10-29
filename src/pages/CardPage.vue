@@ -5,7 +5,7 @@
     </main>
     <div v-if="productsLoadingFailed">Произошла ошибка при загурзке товаров
         <!-- <button @click.prevent="loadProducts">Попробовать еще раз</button> -->
-      </div>
+    </div>
     <main class="content container" v-else>
       <div class="content__top">
         <ul class="breadcrumbs">
@@ -82,9 +82,9 @@
               Итого: <span>{{ totalPrice | numberFormat }} ₽</span>
             </p>
 
-            <button class="cart__button button button--primery" type="submit" :disabled="products.length === 0">
+            <router-link tag="button" class="cart__button button button--primery" type="submit" :disabled="products.length === 0" href="#" :to="{name: 'order'}">
               Оформить заказ
-            </button>
+            </router-link>
           </div>
         </form>
       </section>

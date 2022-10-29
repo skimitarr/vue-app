@@ -31,11 +31,8 @@
 </template>
 
 <style>
-  .catalog {
-    position: relative;
-  }
   #preloader {
-      /* position: fixed; */
+      position: fixed;
       background-color: rgb(198, 243, 241);
       top: 0;
       left: 0;
@@ -126,7 +123,7 @@ export default {
       filterCategoryId: 0,
       filterColor: 0,
       page: 1,
-      productsPerPage: 3,
+      productsPerPage: 6,
       productsData: null,
       colorId: null,
       productsLoading: false,

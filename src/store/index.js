@@ -17,8 +17,16 @@ export default new Vuex.Store({
     ],
     userAccessKey: null,
     cardProductsData: [],
+    orderInfo: null,
   },
   mutations: {
+    updateOrderInfo(state, orderInfo) {
+      state.orderInfo = orderInfo;
+    },
+    resetCard(state) {
+      state.cardProducts = [];
+      state.cardProductsData = [];
+    },
     // addProductToCard(state, {productId, amount}) {
     //   const item = state.cardProducts.find(item => item.productId === productId);
     //   if (item) {
@@ -41,7 +49,6 @@ export default new Vuex.Store({
     // },
     updateUserAccessKey(state, accessKey) {
       state.userAccessKey = accessKey;
-      console.log('updateUserAccessKey ' + state.userAccessKey)
     },
     updateCardProductsData(state, items) {
       state.cardProductsData = items;
@@ -89,9 +96,23 @@ export default new Vuex.Store({
     },
     spinnerBasket(state) {
       return state.spinnerBasket;
-    }
+    },
+    cardInfoOrderProducts(state) {
+      return state.orderInfo;
+    },
+    cardInfoTotalPrice(state, getters) {
+      return getters.cardInfoOrderProducts.basket.items.reduce((acc, item) => (item.product.price * item.quantity) + acc, 0);
+    },
   },
   actions: {
+    loadOrderInfo(context, orderId) {
+      return axios.get(API_BASE_URL + `/api/orders/` + orderId, {
+        params: {
+          userAccessKey: context.state.userAccessKey
+        }
+      })
+      .then(response => context.commit('updateOrderInfo', response.data))
+    },
     loadCard(context) {
       context.commit('stateProductLoading');
       return axios.get(API_BASE_URL + `/api/baskets`, {
